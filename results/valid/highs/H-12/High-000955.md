@@ -1,0 +1,7 @@
+# [000955] Incorrect logic in A26ZDividendDistributor::getUnclaimedAmounts() may result in divide by 0 error
+  
+  ## Description
+This [line](https://github.com/dualguard/2025-11-alignerz/blob/f7eeed88d91356484c02af6f38b71f27b790828c/protocol/src/contracts/A26ZDividendDistributor/A26ZDividendDistributor.sol#L141) says if the token in TVS and token in Allocation is same then return 0. As per the code walkthrough the actual logic was if those tokens are not same then return 0. 
+## Impact
+This may lead to divide by 0 error if both tokens are same for any TVSs while setting up dividend. As those tokens are same this [line](https://github.com/dualguard/2025-11-alignerz/blob/f7eeed88d91356484c02af6f38b71f27b790828c/protocol/src/contracts/A26ZDividendDistributor/A26ZDividendDistributor.sol#L141) will return 0. For that case if [_totalUnclaimedAmounts](https://github.com/dualguard/2025-11-alignerz/blob/f7eeed88d91356484c02af6f38b71f27b790828c/protocol/src/contracts/A26ZDividendDistributor/A26ZDividendDistributor.sol#L131) set to 0 then the 'divide by 0' error will occur by this [line](https://github.com/dualguard/2025-11-alignerz/blob/f7eeed88d91356484c02af6f38b71f27b790828c/protocol/src/contracts/A26ZDividendDistributor/A26ZDividendDistributor.sol#L218).
+  
